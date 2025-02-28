@@ -1,0 +1,10 @@
+CREATE TABLE account (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    address VARCHAR(255) NOT NULL
+    created_at TIMESTAMP DEFAULT NOW(),
+    status BOOLEAN NOT NULL
+);
