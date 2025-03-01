@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 //swagger
 @RequestMapping(value = "/account", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Tag(name = "Account", description = "Account Manager")
@@ -31,8 +33,32 @@ public interface AccountControllerSwagger {
                         description = "Internal Server Error"),
         })
         @PostMapping
-        ResponseEntity<AccountResponse> post(@RequestBody @Valid CreateAccountRequest createAccountRequest); //recebe o dto
+        ResponseEntity<AccountResponse> createAccount(@RequestBody @Valid CreateAccountRequest createAccountRequest); //recebe o dto
 
+        @Operation(description = "Recupera uma lista contas.")
+        @ApiResponses(value = {
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "Lista de contas")
+
+        })
+        @GetMapping
+        ResponseEntity<List<AccountResponse>> listAccount(@RequestParam String cpf);
+
+        @Operation(description = "Inativa uma conta existente")
+        @ApiResponses(value = {
+                @ApiResponse(
+                        responseCode = "204",
+                        description = "Conta inativada com sucesso (sem conteúdo)"),
+                @ApiResponse(
+                        responseCode = "404",
+                        description = "Conta não encontrada"),
+                @ApiResponse(
+                        responseCode = "500",
+                        description = "Erro interno no servidor")
+        })
+        @PatchMapping("/{accountId}/inactivate")
+        ResponseEntity<AccountResponse> inactivateAccount(@PathVariable Long accountId);
     }
 
 

@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Account {
 
-    @Id //chave primaria
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //cria um id novo toda vez
     private Long id;
     @Column(name = "name", nullable = false, length = 100)
@@ -28,13 +28,13 @@ public class Account {
     private String phone;
     @Column(name = "address", nullable = false)
     private String address;
-    @Column(name = "created_at", updatable = false) //qual coluna se referencia e essa coluna nunca pode ter o valor alterado.
-    @Builder.Default //so onde recebe valor
+    @Column(name = "created_at", updatable = false)
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
     @Builder.Default
     @Column(name = "status", nullable = false)
-    private Boolean status = true; //sempre iniciar como ativo
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true) //criando o relacionamento de um pra muitos entre uma conta e o cartao
-    //indica que quando apagar uma conta deve apagar todos os cartoes e que um cartao nao pode existir sem uma conta.
+    private Boolean status = true;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+
     private List<CreditCard> creditCards;
 }

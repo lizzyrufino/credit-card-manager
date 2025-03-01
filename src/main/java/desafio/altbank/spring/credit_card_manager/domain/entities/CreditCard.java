@@ -1,6 +1,7 @@
 package desafio.altbank.spring.credit_card_manager.domain.entities;
 
-import desafio.altbank.spring.credit_card_manager.domain.enums.CardType;
+import desafio.altbank.spring.credit_card_manager.domain.enums.CreditCardType;
+import desafio.altbank.spring.credit_card_manager.domain.enums.CreditCardStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,23 +15,46 @@ import java.time.LocalDateTime;
 @Table(name = "credit_card")
 @AllArgsConstructor
 public class CreditCard {
-    @Id //chave primaria
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //cria um id novo toda vez
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name", nullable = false, length = 100)
     private String name;
     @Column(name = "cvv", nullable = false, length = 3)
     private String cvv;
-    @Column(name = "card_number", unique = true, nullable = false, length = 16) //a gente coloca isso quando o nome da coluna ta diferente da string
+    @Column(name = "card_number", unique = true, nullable = false, length = 16)
     private String cardNumber;
-    @Enumerated(EnumType.STRING) //indica para o banco usar o valor de string para esse enum
-    private CardType type;
+    @Enumerated(EnumType.STRING)
+    private CreditCardType type;
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
-    @Column(name = "created_at", updatable = false) //qual coluna se referencia e essa coluna nunca pode ter o valor alterado.
-    @Builder.Default //so onde recebe valor
+    @Column(name = "created_at", updatable = false)
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
+    @Builder.Default
+    @Column(name = "status", nullable = false)
+    private CreditCardStatus status = CreditCardStatus.INACTIVE;
     @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false) //quando eu chamar o credit card, ele automaticamente vincula a conta que esta atrelada.
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
+    @Column(name = "reissue_reason")
+    private String reissueReason;
+
+    @Column(name = "tracking_id", unique = true)
+    private String trackingId;
+
+    @Column(name = "delivery_status")
+    private String deliveryStatus;
+
+    @Column(name = "delivery_date")
+    private LocalDateTime deliveryDate;
+
+    @Column(name = "delivery_return_reason")
+    private String deliveryReturnReason;
+
+    @Column(name = "delivery_address")
+    private String deliveryAddress;
+
+    @Column(name = "last_cvv_update")
+    private LocalDateTime lastCvvUpdate;
 }

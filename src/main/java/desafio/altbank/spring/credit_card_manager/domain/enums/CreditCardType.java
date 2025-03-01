@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum CardType {
+public enum CreditCardType {
 
     CARD("CARD"),
     VIRTUAL_CARD("VIRTUAL_CARD");
